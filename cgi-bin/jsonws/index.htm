@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>JSON Fnctions test page</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.20/jquery-ui.min.js"></script>
+    <style type="text/css">
+       
+              
+        #Text_extraparameters
+        {
+            width: 450px;
+        }
+        #Text_URL
+        {
+            width: 450px;
+        }
+        #Select_requests
+        {
+            width: 324px;
+        }
+        #Button_go
+        {
+            width: 124px;
+        }
+        #Text_senturl
+        {
+            width: 1453px;
+        }
+        #TextArea1
+        {
+            height: 348px;
+            width: 1104px;
+        }
+        #iframe_json
+        {
+            height: 431px;
+            width: 982px;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+        jQuery.support.cors = true;
+        var option_querystring = new Object();
+        option_querystring['ListACPMembers.jsp'] = "geen parameters";
+        option_querystring['ListCountries.jsp'] = "id=OFAC|ACP|ACP - Caribbean|ACP - Pacific|ACP - Africa";
+        option_querystring['GetCountry.jsp'] = "id=40";
+        option_querystring['ListGaulmembersByParentId.jsp'] = "id=27&level=1";
+        option_querystring['GetGaulmemberById.jsp'] = "id=27";
+        option_querystring['ListWdpasByCountryId.jsp'] = "id=140";
+        option_querystring['GetWdpaById.jsp'] = "id=2258";
+        option_querystring['ListFirestats.jsp'] = "id=2258&decadestart=20100101&decadeend=20101221&buffer=0";
+        option_querystring['ListFirestatsA.jsp'] = "id=2258&decadestart=20100101&decadeend=20101221&buffer=0";
+        
+        function formatJson(val) {
+            var retval = '';
+            var str = val;
+            var pos = 0;
+            var strLen = str.length;
+            var indentStr = '&nbsp;&nbsp;&nbsp;&nbsp;';
+            var newLine = '<br />';
+            var char = '';
+            for (var i = 0; i < strLen; i++) {
+                char = str.substring(i, i + 1);
+                if (char == '}' || char == ']') {
+                    retval = retval + newLine;
+                    pos = pos - 1;
+                    for (var j = 0; j < pos; j++) {
+                        retval = retval + indentStr;
+                    }
+                }
+                retval = retval + char;
+                if (char == '{' || char == '[' || char == ',') {
+                    retval = retval + newLine;
+                    if (char == '{' || char == '[') {
+                        pos = pos + 1;
+                    }
+                    for (var k = 0; k < pos; k++) {
+                        retval = retval + indentStr;
+                    }
+                }
+            }
+            return retval;
+        }
+
+        function select_change() {
+            
+            Text_extraparameters.value = option_querystring[Select_requests[Select_requests.selectedIndex].value];
+        }
+
+        function Button_go_onclick() {
+            var url = Text_URL.value;
+            url += "/" + Select_requests[Select_requests.selectedIndex].value + "?";
+            url += "includemetadata=";
+            url += (Checkbox_includemetadata.checked) ? "true" : "false";
+            url += "&includeinfo=";
+            url += (Checkbox_includeinfo.checked) ? "true" : "false";
+            url += "&islist=";
+            url += (Checkbox_islist.checked) ? "true" : "false";
+            url += "&lstextent=";
+            url += (Checkbox_lstextent.checked) ? "true" : "false";
+            url += "&lstcentroid=";
+            url += (Checkbox_lstcentroid.checked) ? "true" : "false";
+            url += "&lstgeometry=";
+            url += (Checkbox_lstgeometry.checked) ? "true" : "false";
+            url += "&lstcalcarea=";
+            url += (Checkbox_lstcalcarea.checked) ? "true" : "false";
+            
+            url += "&" + Text_extraparameters.value;
+            Text_senturl.value = url;
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: 'text',
+                contentType: "text/html;charset=LATIN1",
+                async: false,
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                },
+                success: function (response) {
+                    iframe_json.document.close();
+                    if (Checkbox_pretty.checked)
+                        iframe_json.document.write(formatJson(response));
+                    else
+                        iframe_json.document.write(response);
+                    //var jobj = jQuery.parseJSON(response);
+
+
+                },
+                complete: function (response1) {
+                    //alert("complete");
+                }
+            });
+
+
+        }
+
+    </script>
+</head>
+<body>
+<h1>JSON TEST PAGE</h1>
+
+    
+        <p><input id="Checkbox_includemetadata" type="checkbox" /> Include Metadata</p>
+        <p><input id="Checkbox_includeinfo" type="checkbox" /> Include Info</p>
+        <input id="Checkbox_islist" type="checkbox" checked="checked" /> Islist<br/>
+        <p><input id="Checkbox_lstextent" type="checkbox" /> List extent</p>
+        <p><input id="Checkbox_lstcentroid" type="checkbox" /> List centroid</p>
+        <p><input id="Checkbox_lstgeometry" type="checkbox" /> List geometry</p>
+        <p><input id="Checkbox_lstcalcarea" type="checkbox" /> List lstcalcarea</p>
+        
+        <hr />
+        <p>
+            URL :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="Text_URL" type="text" " 
+                value="http://h03-dev-vm15:8080/cgi-bin/jsonws" /></p>
+        <p>
+            Extra parameters :
+            <input id="Text_extraparameters" type="text" /></p>
+
+        <hr />
+        Choose Request&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select id="Select_requests" onchange="select_change()" name="D1">
+            <option>ListACPMembers.jsp</option>
+            <option>ListCountries.jsp</option>
+            <option>GetCountry.jsp</option>
+            <option>ListGaulmembersByParentId.jsp</option>
+            <option>GetGaulmemberById.jsp</option>
+            <option>ListWdpasByCountryId.jsp</option>
+            <option>GetWdpaById.jsp</option>
+            <option>ListFirestats.jsp</option>
+            <option>ListFirestatsA.jsp</option>
+            
+        </select>
+
+        <hr />
+        <p>
+            <input id="Button_go" type="button" value="GO" onclick="Button_go_onclick()" /><input id="Checkbox_pretty" type="checkbox"  checked="checked" />Pretty JSON&nbsp;&nbsp;&nbsp;
+            <input id="Text_senturl" readonly="readonly" type="text" /></p>
+        <hr />
+
+        <p>
+            <iframe id="iframe_json"></iframe>
+</body>
+</html>

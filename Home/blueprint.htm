@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="jquery/jquery.css"/>
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/blueprint.css"/>
+    
+    <script type="text/javascript">
+        
+        var headerheight = 100;
+        //var headerwidth = 1360;
+        var headerwidth = 1800;
+        var headerfrac1=60;
+        var headerfrac2=40;
+        var padding = 1;
+        var borderwidth=1;
+        jQuery.support.cors = true;
+
+
+        $(document).ready(function () {
+            $("#div_tableheader").css({ "width": headerwidth + "px", "height": headerheight + "px" });
+            $(".tableHeaderItem").css({ "padding": padding + "px", "border-width": borderwidth + "px" });
+            $("#div_table").css({ "width": headerwidth + "px", "top": headerheight + "px" });
+            positionTableHeaderItems();
+        });
+
+
+        function positionTableHeaderItems() {
+            positionTableHeaderItem($("#tableHeaderItem1"), 0, 0, 10, 100, "<b>Mapped ecosystem service</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem2"), 0, 10, 6, 100, "<b>Ecosystem Service Indicator</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem3a"), 0, 16, 12, 40, "<b>Accounting definitions</b>");
+            positionTableHeaderItem($("#tableHeaderItem3b"), 40, 16, 6, 60, "<b>Type</b>");
+            positionTableHeaderItem($("#tableHeaderItem3c"), 40, 22, 6, 60, "<b>Beneficiary</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem4a"), 0, 28, 15, 40, "<b>Quantification unit</b>");
+            positionTableHeaderItem($("#tableHeaderItem4b"), 40, 28, 5, 60, "<b>Quantity</b>");
+            positionTableHeaderItem($("#tableHeaderItem4c"), 40, 33, 5, 60, "<b>Area</b>");
+            positionTableHeaderItem($("#tableHeaderItem4d"), 40, 38, 5, 60, "<b>Time</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem5a"), 0, 43, 8, 40, "<b>Input Data source</b>");
+            positionTableHeaderItem($("#tableHeaderItem5b"), 40, 43, 4, 60, "<b>Label</b>");
+            positionTableHeaderItem($("#tableHeaderItem5c"), 40, 47, 4, 60, "<b>Url</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem6"), 0, 51, 10, 100, "<b>Quantification mehod</b>");
+            
+            positionTableHeaderItem($("#tableHeaderItem7a"), 0, 61, 18, 40, "<b>Spatial details</b>");
+            positionTableHeaderItem($("#tableHeaderItem7b"), 40, 61, 6, 60, "<b>Scale</b>");
+            positionTableHeaderItem($("#tableHeaderItem7c"), 40, 67, 6, 60, "<b>Extent</b>");
+            positionTableHeaderItem($("#tableHeaderItem7d"), 40, 73, 6, 60, "<b>Resolution</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem8"), 0, 79, 6, 100, "<b>Mapped year or period</b>");
+
+            positionTableHeaderItem($("#tableHeaderItem9a"), 0, 85, 5, 100, "<b>Study objective met</b>");
+            //positionTableHeaderItem($("#tableHeaderItem9b"), 40, 85, 5, 60, "(1=yes;<br/>5=no)");
+
+            positionTableHeaderItem($("#tableHeaderItem10"), 0, 90, 10, 100, "<b>Comments</b>");
+
+            var ids = document.URL.split("?")[1];
+
+
+            $.ajax("http://" + window.location.host + "/cgi-bin/blueprint/listAllServices.jsp?" + ids)
+            //$.ajax("http://h05-dev-vm9:8080/cgi-bin/blueprint/listAllServices.jsp?" + ids)
+                .done(function (data) {
+                    try {
+                        data = data.substr(data.indexOf('{'));
+                        while (data.substr(data.length - 1) == '\n')
+                            data = data.substr(0, data.length - 1);
+                        data = data.split("\n").join("<br/>");
+                        data = data.split("\r").join("");
+                        var allrecords = jQuery.parseJSON(data);
+                        addRecords(allrecords.records);
+                    } catch (e) {
+                        var a = 0;
+                    }
+                })
+                .fail(function (a) {
+                    var a = 0;
+                });
+
+        }
+        function positionTableHeaderItem(d, top, left, width, height,txt) {
+            top = Math.round(top * headerheight / 100);
+            left = Math.round(left * headerwidth / 100);
+            width = Math.round((width * headerwidth / 100) - 2 * borderwidth - 2 * padding);
+            height = Math.round((height * headerheight / 100) - 2 * borderwidth - 2 * padding);
+            d.css({ "top": top + "px", "left": left + "px", "width": width + "px", "height": height + "px" });
+            d.html(txt);
+        }
+        function addRecords(records) {
+
+            var str = '<TABLE style="border-collapse:collapse;table-layout:fixed;" border="1">';
+            var rowcnt;
+
+            for (var i = 0; i < records.length; i++) {
+                if (i == 0) {
+                    str += '<tr class="clsrowservice"><td colspan="16"><b><big>' + records[i].ecosystem_service_category + '</big></b></td></tr>';
+                    rowcnt = 2;
+                } else {
+                    if (records[i - 1].ecosystem_service_category != records[i].ecosystem_service_category) {
+                        str += '<tr class="clsrowservice"><td colspan="16"><b><big>' + records[i].ecosystem_service_category + '</big></b></td></tr>';
+                        rowcnt = 2;
+                    }
+                }
+                rowcnt = (rowcnt == 2) ? 1 : 2;
+                str += '<tr class="clsrowservice' + rowcnt + '">';
+                //str += '<td style="width:2%">' + "" + '</td>';
+                str += '<td style="width:10%" colspan="2">' + records[i].ecosystem_service + '</td>';
+                str += '<td style="width:6%">' + records[i].indicator + '</td>';
+                str += '<td style="width:6%">' + ((records[i].accounting_type != "null")?records[i].accounting_type:"") + '</td>';
+                str += '<td style="width:6%">' + ((records[i].accounting_beneficiary != "null")?records[i].accounting_beneficiary:"") + '</td>';
+
+                str += '<td style="width:5%">' + ((records[i].quantification_unit != "null")?records[i].quantification_unit:"") + '</td>';
+                str += '<td style="width:5%">' + ((records[i].areal_unit != "null")?records[i].areal_unit:"") + '</td>';
+                str += '<td style="width:5%">' + ((records[i].temporal_unit != "null")?records[i].temporal_unit:"") + '</td>';
+
+                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;">' + ((records[i].datasources_label != "null")?records[i].datasources_label:"") + '</td>';
+                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;">' + ((records[i].datasources_url != "null")?records[i].datasources_url:"") + '</td>';
+                str += '<td style="width:10%">' + ((records[i].quantification_method != "null")?records[i].quantification_method:"") + '</td>';
+
+                str += '<td style="width:6%">' + ((records[i].spatial_level != "null")?records[i].spatial_level:"") + '</td>';
+                str += '<td style="width:6%">' + ((records[i].area != "") ? ReplaceNumberWithCommas(records[i].area) + ' sqkm</td>' : "</td>");
+                str += '<td style="width:6%">' + ((records[i].minimum_mapping_unit != "null")?records[i].minimum_mapping_unit:"") + '</td>';
+                str += '<td style="width:6%">' + ((records[i].start_year != "null")?records[i].start_year:"")  + ' - ' + ((records[i].end_year != "null")?records[i].end_year:"") + '</td>';
+                str += '<td style="width:5%">' + ((records[i].study_objective_met != "null")?records[i].study_objective_met:"") + '</td>';
+                //str += '<td style="width:10%"><div style="width:100%;height:100%;overflow:hidden">' + records[i].comments + '</div></td>';
+                str += '<td style="width:10%;word-wrap:break-word;word-break:break-all;">' + ((records[i].comments != "null") ? records[i].comments : "") + '</div></td>';
+                str += "</tr>";
+            }
+            str += "</TABLE>";
+            $("#div_table").html(str);
+        }
+
+        function ReplaceNumberWithCommas(yourNumber) {
+            //Seperates the components of the number
+            var n = yourNumber.toString().split(".");
+            //Comma-fies the first part
+            n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //Combines the two sections
+            return n.join(".");
+        }
+    </script>
+    
+
+</head>
+<body>
+<div id="div_window">
+    
+        <div id="div_header"></div>
+        <div id="div_tableheader">
+<div id="tableHeaderItem1" class="tableHeaderItem"></div>
+<div id="tableHeaderItem2" class="tableHeaderItem"></div>
+<div id="tableHeaderItem3a" class="tableHeaderItem"></div>
+<div id="tableHeaderItem3b" class="tableHeaderItem"></div>
+<div id="tableHeaderItem3c" class="tableHeaderItem"></div>
+<div id="tableHeaderItem4a" class="tableHeaderItem"></div>
+<div id="tableHeaderItem4b" class="tableHeaderItem"></div>
+<div id="tableHeaderItem4c" class="tableHeaderItem"></div>
+<div id="tableHeaderItem4d" class="tableHeaderItem"></div>
+<div id="tableHeaderItem5a" class="tableHeaderItem"></div>
+<div id="tableHeaderItem5b" class="tableHeaderItem"></div>
+<div id="tableHeaderItem5c" class="tableHeaderItem"></div>
+<div id="tableHeaderItem6" class="tableHeaderItem"></div>
+<div id="tableHeaderItem7a" class="tableHeaderItem"></div>
+<div id="tableHeaderItem7b" class="tableHeaderItem"></div>
+<div id="tableHeaderItem7c" class="tableHeaderItem"></div>
+<div id="tableHeaderItem7d" class="tableHeaderItem"></div>
+<div id="tableHeaderItem8" class="tableHeaderItem"></div>
+<div id="tableHeaderItem9a" class="tableHeaderItem"></div>
+<div id="tableHeaderItem9b" class="tableHeaderItem"></div>
+<div id="tableHeaderItem10" class="tableHeaderItem"></div>
+
+        </div>
+        <div id="div_table">
+        </div>
+        
+
+</div>
+</body>
+</html>

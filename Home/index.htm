@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ESP maps</title>
+    <link rel="icon" href="images/favicon.ico" />
+    
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <script type="text/javascript" src="ext-3.4.0/ext-base.js"></script>
+    <script type="text/javascript" src="ext-3.4.0/ext-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="jquery/jquery.css"/>
+    <link rel="stylesheet" href="jquery/jquery-ui.css" />
+
+    <script type="text/javascript" src="jquery/jquery.js"></script>
+    <script type="text/javascript" src="jquery/jquery-ui.js"></script>
+    <script src="./html/fileshelp/jquery.easytabs.min.js" type="text/javascript"></script>
+
+
+    
+    <script type="text/javascript" src="OpenLayers-2.11/OpenLayers.js"></script>
+    <script type="text/javascript" src="OpenLayers-2.11/LoadingPanel.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/global.css"/>
+    <link rel="stylesheet" type="text/css" href="css/page.css"/>
+    <link rel="stylesheet" type="text/css" href="css/buttons.css"/>
+    <link rel="stylesheet" type="text/css" href="css/data.css"/>
+    <link rel="stylesheet" type="text/css" href="css/filter.css"/>
+    <link rel="stylesheet" type="text/css" href="css/map.css"/>
+    <link rel="stylesheet" type="text/css" href="css/maptools.css"/>
+    <link rel="stylesheet" type="text/css" href="css/modal.css"/>
+    
+    <script type="text/javascript" src="js/ES.Modal.js"></script>
+    <script type="text/javascript" src="js/MapApp.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Config.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Tools.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Filter.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Startscreen.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Buttons.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.PrepareDataAndFilter.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Data.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Map.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.Maptools.js"></script>
+    
+    <script type="text/javascript" src="js/ES.Presentation.StudyServices.js"></script>
+    <script type="text/javascript" src="js/ES.Presentation.js"></script>
+    <script type="text/javascript" src="js/ES.GetData.js"></script>
+    <script type="text/javascript">
+        OpenLayers.Layer.Google.v3.repositionMapElements = function () {
+            // This is the first time any Google layer in this mapObject has been
+            // made visible.  The mapObject needs to know the container size.
+            google.maps.event.trigger(this.mapObject, "resize");
+
+            var div = this.mapObject.getDiv().firstChild;
+            if (!div || div.childNodes.length < 3) {
+                this.repositionTimer = window.setTimeout(
+                OpenLayers.Function.bind(this.repositionMapElements, this),
+                250
+            );
+                return false;
+            }
+
+            var cache = OpenLayers.Layer.Google.cache[this.map.id];
+            var container = this.map.viewPortDiv;
+
+            // move the ToS and branding stuff up to the container div
+            // depends on value of zIndex, which is not robust
+            for (var i = div.children.length - 1; i >= 0; --i) {
+                if (div.children[i].style.zIndex == 1000001) {
+                    var termsOfUse = div.children[i];
+                    container.appendChild(termsOfUse);
+                    termsOfUse.style.zIndex = "1100";
+                    termsOfUse.style.bottom = "";
+                    termsOfUse.className = "olLayerGoogleCopyright olLayerGoogleV3";
+                    termsOfUse.style.display = "";
+                    cache.termsOfUse = termsOfUse;
+                }
+                if (div.children[i].style.zIndex == 1000000) {
+                    var poweredBy = div.children[i];
+                    container.appendChild(poweredBy);
+                    poweredBy.style.zIndex = "1100";
+                    poweredBy.style.bottom = "";
+                    poweredBy.className = "olLayerGooglePoweredBy olLayerGoogleV3 gmnoprint";
+                    poweredBy.style.display = "";
+                    cache.poweredBy = poweredBy;
+                }
+                if (div.children[i].style.zIndex == 10000002) {
+                    container.appendChild(div.children[i]);
+                }
+            }
+
+            this.setGMapVisibility(this.visibility);
+        };
+    </script>
+</head>
+<body>
+<div id="div_window">
+    <div id="div_page">
+        <div id="div_header">
+            <div id="alpha"><img src="images/beta.jpg" alt="beta" width="50%" height="100%" /></div>
+            <div id="div_title1"></div>
+            <div id="div_title2"></div>
+            <div id="div_button_container">
+                <div id="div_button_home" class="cls_top_buttons"></div>
+                <div id="div_button_map" class="cls_top_buttons"></div>
+                <div id="div_button_data" class="cls_top_buttons"></div>
+                <div id="div_button_upload" class="cls_top_buttons"></div>
+                <div id="div_button_help" class="cls_top_buttons"></div>
+            </div>
+        </div>
+        <div id="div_content">
+            <div id="div_content_map">
+                 <div id="csirojpg"><img src="images/csiro.png" width="100%" height="100%" alt="csiro" /></div>
+                 <div id="eujpg"><img src="images/eu.jpg" width="100%" height="100%"  alt="eu" /></div>
+                 <div id="biopamajpg"><img src="images/biopama.png" width="100%" height="100%" alt="biopama" /></div>
+                 <div id = "div_googlechoice"><img id = "img_googlechoice" src="images/googlesat.JPG" alt="google-choice" title="Choose terrain/satellite" /></div>
+                 <div id = "div_regions"><img id = "img_regions" src="images/regions.JPG" alt="regions-choice" title="Turn regions on/off" /></div>
+                 <div id="div_uploadedmap_container">
+                     <div id = "div_uploadedmap"><img id = "img_uploadedmap" src="" alt="uploadedmap" title="Remove uploaded map" /></div>
+                     <div id = "div_slider_box"><b>Opacity: <span id="divopacity">1</span></b><br/><br/><div id = "div_slider"></div></div>
+                 </div>
+                 <div id="div_overview_map"></div>
+                 <div id="div_pin"><img alt="" src="images/pin.png" /></div>
+                 <div id="div_maptoolscontainer">
+                    <div id="div_maptoolbttns_baselayers" class="class_maptoolbttns">Baselayer</div>
+                    <div id="div_maptoolbttns_overlays" class="class_maptoolbttns">Overlay</div>
+                    <div id="div_maptoolbttns_uploaded" class="class_maptoolbttns">Uploaded</div>
+                    <div id="div_maptool_baselayers" class="class_maptool">
+                        <div id="baselayertable">
+                        <table style="width:100%;text-align:center">
+                        <tr><td><a href="javascript:setBaseLayer(1);"><img alt="" src="images/terrain25.png" width="96" height="66" /></a></td><td><a href="javascript:setBaseLayer(2);"><img alt="" src="images/satellite25.png" width="96" height="66" /></a></td></tr>
+                        <tr><td>Google Terrain<br /><br /></td><td>Google Satellite<br /><br /></td></tr>
+                        <tr><td><a href="javascript:setBaseLayer(4);"><img id="glclegend" alt="" src="images/glc25.png" width="96" height="66" /></a></td><td><a href="javascript:setBaseLayer(5);"><img alt="" src="images/wms25.png" width="96" height="66" /></a></td></tr>
+                        <tr><td>Global Land Cover<br />(GLC2000) <a href="http://bioval.jrc.ec.europa.eu/products/glc2000/products.php" target="_blank"><img src="images/globby.png" alt="" title="Reference" width="25" height="25" /></a><br /></td><td>Basic layer</td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td><br /><br /></td><td></td></tr>
+                        </table>
+                        </div>
+                        
+                    </div>
+                    <div id="div_maptool_overlays" class="class_maptool">
+                        <div id="layers_wdpa" class="layers"><a href="javascript:layerSelected(1);"><img alt=""  id="layers_wdpa_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_wdpa_label">WDPA <a href="http://protectedplanet.net" target="_blank"><img src="images/globby.png" alt="" title="Reference" width="25" height="25" /></a></span></div>
+                        <div id="layers_regions" class="layers"><a href="javascript:layerSelected(2);"><img alt=""  id="layers_regions_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_regions_label">Regions</span></div>
+                        <div id="layers_white" class="layers"><a href="javascript:layerSelected(3);"><img alt=""  id="layers_white_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_white_label">White's Terrestrial Ecoregions </span></div>
+                        <div id="layers_meow"  class="layers"><a href="javascript:layerSelected(4);"><img alt=""  id="layers_meow_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_meow_label">Marine Ecoregions Of the World (MEOW) <a href="http://www.nature.org/ourinitiatives/regions/northamerica/unitedstates/colorado/scienceandstrategy/marine-ecoregions-of-the-world.pdf" target="_blank"><img src="images/globby.png" alt="" title="Reference" width="25" height="25" /></a></span></div>
+                        <div id="layers_eez"   class="layers"><a href="javascript:layerSelected(5);"><img alt=""  id="layers_eez_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_eez_label">Exclusive Economic Zones <a href="http://www.un.org/Depts/los/convention_agreements/convention_historical_perspective.htm " target="_blank"><img src="images/globby.png" alt="" title="Reference" width="25" height="25" /></a></span></div>
+                        <div id="layers_bat"   class="layers"><a href="javascript:layerSelected(6);"><img alt=""  id="layers_bat_img" src="images/unchecked.png" /></a>&nbsp;<span id="layers_bat_label">Bathymetry <a href="http://www.bodc.ac.uk/projects/international/gebco/" target="_blank"><img src="images/globby.png" alt="" title="Reference" width="25" height="25" /></a></span></div>
+                    </div>
+                    <div id="div_maptool_uploaded" class="class_maptool"></div>
+                    <div id="div_maptool_uploaded_details"></div>
+                 </div>
+                 <div id="div_identify_container">
+                    <p style="text-align:right; margin-top: 0px; "><a class="detailtools" href="javascript:hideIdentify();"><img src="css/close.png" /></a></p>
+                    <p id="id_info_title">TITLE</p>
+                    <div id="id_info_region" class="cls_info">
+                        <div id="id_info_region_title" class="cls_info_title"><p>REGION</p></div>
+                        <div id="id_info_region_info" class="cls_info_info">brabbel</div>
+                    </div>
+					<div id="id_info_wdpa" class="cls_info">
+                        <div id="id_info_wdpa_title" class="cls_info_title"><p>WDPA</p></div>
+                        <div id="id_info_wdpa_info" class="cls_info_info">brabbel</div>
+                    </div>
+					<div id="id_info_glc" class="cls_info">
+                        <div id="id_info_glc_title" class="cls_info_title"><p>GLC</p></div>
+                        <div id="id_info_glc_info" class="cls_info_info">brabbel</div>
+                    </div>
+					<div id="id_info_eez" class="cls_info">
+                        <div id="id_info_eez_title" class="cls_info_title"><p>EEZ</p></div>
+                        <div id="id_info_eez_info" class="cls_info_info">brabbel</div>
+                    </div>
+					<div id="id_info_eco" class="cls_info">
+                        <div id="id_info_eco_title" class="cls_info_title"><p>ECOREGION</p></div>
+                        <div id="id_info_eco_info" class="cls_info_info">brabbel</div>
+                    </div>
+					<div id="id_info_meow" class="cls_info">
+                        <div id="id_info_meow_title" class="cls_info_title"><p>MEOW</p></div>
+                        <div id="id_info_meow_info" class="cls_info_info">brabbel</div>
+                    </div>	
+					<div id="id_info_uploaded" class="cls_info">
+                        <div id="id_info_uploaded_title" class="cls_info_title"><p>UPLOADED</p></div>
+                        <div id="id_info_uploaded_info" class="cls_info_info">brabbel</div>
+                    </div>					
+                 </div>
+                 <div id="legend"></div>
+                 <div id="wdpacopyright"></div>
+            </div>
+            <div id="div_content_home" class="cls_content">
+                
+            </div>
+            <div id="div_content_data" class="cls_content">
+                <div id="div_content_data_service">
+                        <div id="div_content_data_call_filter">Filter</div>
+                        <div id="div_contentx_container">
+                            <div id="div_content_freesearch">
+                                <big>Search: &nbsp; &nbsp;</big><input type="text" id="div_content_freesearch_text" class="class_content_freesearch_text" size="30" style="background:transparent;border-radius: 0px;" />
+                            </div>
+                            <div id="div_content_last">
+                                <big>Data restricted by:&nbsp;<span id="div_content_last_text" class="class_content_last_text">nothing</span></big>
+                            </div>
+                            <div id="div_content_clearallfilters"><a href="javascript:clearallfilters()">Clear all filters</a></div>
+                        </div>
+                        <div id="div_content_data_service_header"><span id="divshowdownloadblueprint"><a href="javascript:showblueprint();"><img alt="" src="images/Buttons_Ioanna/png/final-icons_02.png" title="Show Blueprint (html)" onmouseover="showblueprintImg(this,1);" onmouseout="showblueprintImg(this,0);" /></a> &nbsp;&nbsp; <a href="javascript:downloadblueprint();"><img src="images/Buttons_Ioanna/png/final-icons_03.png" title="Download Blueprint (CSV)" onmouseover="downloadblueprintImg(this,1);" onmouseout="downloadblueprintImg(this,0);" /></a></span></div>
+                        <div id="div_content_data_service_table_header"></div>
+                        <div id="div_content_data_service_table_container">
+                            <div id="div_content_data_service_table"></div>
+                        </div>
+                        <div id="div_content_data_service_footer"></div>
+                </div>
+                <div id="div_content_data_filter">
+                    <div id="div_content_data_filter_head"><b><span id="div_content_data_filter_head_nr">0</span></b> Services selected</div>
+                    <div id="div_content_data_filter_ecosystemservice"></div>
+                    <div id="div_content_data_filter_biome"></div>
+                    <div id="div_content_data_filter_spatialscale"></div>
+                    <div id="div_content_data_filter_studypurpose"></div>
+                    <div id="div_content_data_filter_run">Close filter</div>
+
+                    <div id="div_contentx_container2">
+                           <div id="div_content_freesearch2">
+                               <big>Search: &nbsp; &nbsp;</big><input type="text" id="div_content_freesearch_text2" class="class_content_freesearch_text" size="30" style="background:transparent;border-radius: 0px;" />
+                           </div>
+                           <div id="div_content_last2">
+                               <big>Data restricted by:&nbsp;<span id="div_content_last_text2" class="class_content_last_text">nothing</span></big>
+                           </div>
+                           <div id="div_content_clearallfilters2"><a href="javascript:clearallfilters()">Clear all filters</a></div>
+                    </div>
+
+                </div>
+                
+            </div>
+            <div id="div_content_upload" class="cls_content">upload</div>
+            <div id="div_content_help" class="cls_content">help</div>
+             <div id='overlay'></div>
+                <div id='modal'>
+                    <div id='content'></div>
+                    <a href='#' id='close'>close</a>
+                </div>
+        </div>
+        <div id="div_footer">
+        </div>
+    </div>
+</div>
+</body>
+</html>

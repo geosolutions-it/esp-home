@@ -1,0 +1,22 @@
+#div_button_container
+{
+    width:100%;
+    height:40px;
+    left:0px;
+    top:85px;
+    z-index:4;
+}
+
+.cls_top_buttons
+{
+    top:10px;
+    height:30px;
+    background:#5182bd;
+    border-color:#5751bd;
+    border-style:solid;
+    border-width:2px;
+    font-size:24px;
+    text-align:center;
+    color:#eeeeee;
+    cursor:pointer;
+    }

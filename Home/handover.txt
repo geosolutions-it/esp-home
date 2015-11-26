@@ -1,0 +1,85 @@
+Servers,database,jsp
+* h05-dev-vm9:8080 equals esp-mapping.jrc.it
+	- Home = application (/srv/tomcat6/webapps/Home)
+	- cgi-bin = jsp pages for proxy and data retrieval (/srv/tomcat6/webapps/cgi-bin)
+	- credentials webuser1@h05-dev-vm9 / ch3ng3m3
+	
+* h05-prod-vm9:8080 equals esp-mapping.net
+
+* h05-dev-vm3:8080 geoserver reference map layers
+	- credentials geoserver: admin / geosrv-H5
+	- credentials webuser / w3bus3r
+	
+* h05-prod-vm3:8080 equals lrm-maps.jrc.ec.europa.eu geoserver reference map layers and uploaded esp maps
+	- region layer
+		+ workspace:espregions
+		+ store:espregions (file:data/shapefiles/ES)
+		+ layer:mces (style not important, sld_body is used)
+
+* database jdbc:postgresql://species.jrc.org:5432/esp / appuser  /  5Ti5k9
+	- schema: blueprint
+	- functions used by JSP pages: 
+		+ areasurface
+		+ biomesbyesiid
+		+ datasourcesbyesiid
+		+ freesearch
+		+ regionsbyesiid
+
+* jsp pages (/srv/tomcat6/webapps/cgi-bin/blueprint)
+	- listAllServices
+	- listAllServicesCSV
+	- applyFilter
+	- applyFreeSearch
+	- freesearch
+	- getIndicatorSurface
+	- getStudyId
+	- listESByRegion
+	- lutBiome
+	- lutBiomeCategory
+	- lutEcosystemservice
+	- lutEcosystemserviceCategory
+	- lutRegions
+	- lutSpatialscale
+	- lutStudypurpose
+	
+	- urlproxy (/srv/tomcat6/webapps/cgi-bin)
+	- query (/srv/tomcat6/webapps/cgi-bin/blueprint)
+	- querycsv (/srv/tomcat6/webapps/cgi-bin/blueprint)
+	- init (/srv/tomcat6/webapps/cgi-bin/blueprint)
+
+JavaScript Libraries
+* http://maps.google.com/maps/api/js?v=3&amp;sensor=false
+* ext-3.4.0/ext-base.js
+* ext-3.4.0/ext-all.js
+* jquery/jquery.js (v1.8.3)
+* jquery/jquery-ui.js (v1.9.2)
+* html/fileshelp/jquery.easytabs.min.js (3.2.0)
+* OpenLayers-2.11/OpenLayers.js
+using the following css's
+* jquery/jquery.css
+* jquery/jquery-ui.css
+
+The application Architecture:
+* index.html
+* css files
+	- global.css (global settings and outer page layout)
+	- page.css (page layout)
+	- buttons.css (buttons configuration)
+	- filter.css (filter configuration)
+	- data.css (services list configuration
+	- map.css (map configuration)
+	- modal.css (global modal div configuration)
+	- blueprint.css (specific css setting for blueprint.html)
+* JavaScript: all files are loaded, Config.js (Global {json object} variables are created = variables and functions) and execution starts (this means also index.html and all referenced CSS files)
+	- $(document).ready() in Presentation.js executes when the DOM is fully loaded.
+	- window/page/app layout is created, title is added, etc
+	- About and Help are refenced (ES.Presentation.Startscreen.js)
+	- Main buttons are created (ES.Presentation.Buttons.js)
+	- Map buttons, slider, etc are created (ES.Presentation.Buttons.js)
+	- Data frame and serviceslist are initialized (ES.Presentation.PrepareDataAndFilter.js)(ES.Presentation.Data.js)
+	- modal div is made (ES.Modal.js)
+	- necessary data is loaded (LUT) and filter is prepared (ES.GetData.js) (ES.Presentation.Filter.js)
+	- the search tool is created (ES.Presentation.Data.js)
+	- a resize event is attached to the browser
+
+

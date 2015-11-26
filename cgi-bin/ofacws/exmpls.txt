@@ -1,0 +1,32 @@
+http://h03-dev-vm15:8080/ofacws/List_Countries.jsp
+
+{"result":[{"id":43,"name":"Burundi","country_id":108},{"id":45,"name":"Cameroon","country_id":120},{"id":49,"name":"Central African Republic","country_id":140},{"id":50,"name":"Chad","country_id":148},{"id":59,"name":"Congo","country_id":178},{"id":68,"name":"Democratic Republic of the Congo","country_id":180},{"id":76,"name":"Equatorial Guinea","country_id":226},{"id":89,"name":"Gabon","country_id":266},{"id":205,"name":"Rwanda","country_id":646},{"id":214,"name":"Sao Tome and Principe","country_id":678}]}
+
+http://h03-dev-vm15:8080/ofacws/Get_Country_By_Coutryid.jsp?id=180
+
+
+
+http://h03-dev-vm15:8080/ofacws/ListGaulMembersByParent.jsp?parent=68&level=1
+
+{"result":[{"id":1066,"name":"Bandundu"},{"id":1067,"name":"Bas-Congo"},{"id":1068,"name":"Equateur"},{"id":1069,"name":"Kasai-Occidental"},{"id":1070,"name":"Kasai-Oriental"},{"id":1071,"name":"Katanga"},{"id":1072,"name":"Kinshasa"},{"id":1073,"name":"Maniema"},{"id":1074,"name":"Nord-Kivu"},{"id":1075,"name":"Province Orientale"},{"id":1076,"name":"Sud-Kivu"}]}
+
+http://h03-dev-vm15:8080/ofacws/GetGaulMemberById.jsp?id=68&extent=true
+
+
+
+
+
+
+
+
+
+43;"Burundi";108
+45;"Cameroon";120
+49;"Central African Republic";140
+50;"Chad";148
+59;"Congo";178
+68;"Democratic Republic of the Congo";180
+76;"Equatorial Guinea";226
+89;"Gabon";266
+205;"Rwanda";646
+214;"Sao Tome and Principe";678
