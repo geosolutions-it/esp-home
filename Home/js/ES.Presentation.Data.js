@@ -159,7 +159,7 @@ function presentServicesList(data) {
     var rowcnt = 2;
     appStatus.selectedServicesAll = new Array();
     $("#div_content_data_service_table_header").html(str);
-    str = '<table style="table-layout:fixed;width:100%;" ><col width="3%" /><col width="15%" /><col width="15%" /><col width="32%" /><col width="10%" /><col width="10%" /><col width="7%" /><col width="8%" />';
+    str = '<table style="table-layout:fixed;width:100%;" ><col width="3%" /><col width="15%" /><col width="15%" /><col width="32%" /><col width="10%" /><col width="10%" /><col width="50px" /><col width="50px" /><col width="50px" />';
     for (var key2 in data.records) {
         if (data.records.hasOwnProperty(key2)) {
             //str += '<tr><td><input type="radio" name="radioservices" value="' + data.records[key2].ecosystemserviceindicatorid + '" onclick="handleClickEcosystemserciceindicator(' + data.records[key2].ecosystemserviceindicatorid + ');" /></td><td><input type=\"checkbox\" id="selectedservicecheckbox' + data.records[key2].ecosystemserviceindicatorid + '" onclick="serviceselected(' + data.records[key2].ecosystemserviceindicatorid + ',this);" /></td><td>' + data.records[key2].indicator + "</td><td>" + data.records[key2].location + '</td><td><a href=javascript:selectstudy(' + data.records[key2].studyid + ')>' + data.records[key2].study_name + "</a></td><td>" + data.records[key2].year + "</td><td>" + data.records[key2].study_purpose + '</td><td><a href="javascript:loadmap(' + data.records[key2].ecosystemserviceindicatorid + ')"><img src="images/map.png" /></a></td><td><a href="javascript:downloadmap(' + data.records[key2].ecosystemserviceindicatorid + ')"><img src="images/shp.png" /></a></td></td><td><a href="javascript:downloadcsv(' + data.records[key2].ecosystemserviceindicatorid + ')"><img src="images/csv.png" /></a></td></td></tr>';
@@ -178,6 +178,13 @@ function presentServicesList(data) {
                 //str += '<a href="javascript:downloadmap(' + data.records[key2].ecosystemserviceindicatorid + ')">download Shape</a>';
                 str += '<a href="javascript:downloadmap(' + data.records[key2].ecosystemserviceindicatorid + ')"><img src="' + graphics.downloadshape.normal + '" title="Click to download shape" onmouseover="shapeImg(this,1);" onmouseout="shapeImg(this,0);"></a>';
             str += '</td>';
+			str += '<td style="overflow:hidden;text-align:center;">';
+			
+			var downloadUrl = (isdevelopping)?'http://esp-mapping.jrc.it/esp-upload':("http://" + window.location.host + '/esp-upload/');
+			downloadUrl = downloadUrl + 'getoriginal/' + data.records[key2].ecosystemserviceindicatorid + '/' + data.records[key2].spatial_data_type_id;
+			
+			str += '<a href="'+downloadUrl+'"><img src="' + graphics.downloadoriginal.normal + '" title="Click to download original file" onmouseover="downloadImg(this,1);" onmouseout="downloadImg(this,0);"></a>';
+			str += '</td>';
             //str += '<td style="overflow:hidden;"><a href="javascript:showfiche(' + data.records[key2].ecosystemserviceindicatorid + ')">blueprint</a></td>';
             str += '</tr>';
             appStatus.selectedServicesAll.push(data.records[key2].ecosystemserviceindicatorid);
@@ -209,6 +216,12 @@ function shapeImg(that, isover) {
         that.src = graphics.downloadshape.hover;
     else
         that.src = graphics.downloadshape.normal;
+}
+function downloadImg(that, isover) {
+    if (isover)
+        that.src = graphics.downloadoriginal.hover;
+    else
+        that.src = graphics.downloadoriginal.normal;
 }
 function geotiffImg(that, isover) {
     if (isover)
@@ -461,12 +474,7 @@ function downloadmap(id) {
                 }
                 if (themapdata.records[0].spatial_data_type_id == 1) {
                     var urlextra = calculateWMSparameters(themapdata.records[0]);
-                    window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wms?service=WMS&version=1.1.0&request=GetMap&layers=esp:" + themapdata.records[0].layer_name + "&styles=" + urlextra + "&srs=EPSG:4326&format=image/geotiff", "_self");
-                    //window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage=esp:" + themapdata.records[0].layer_name + "" + urlextra + "&CRS=EPSG:4326&RESX=0.01&RESY=0.01&FORMAT=GeoTiff&filename=paard.tif", "_self");
-
-
-
-                    //http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wcs?SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&COVERAGE=esp:esp-159&CRS=EPSG:4326&BBOX=0,30,30,60&RESX=0.01&RESY=0.01&FORMAT=GeoTiff&filename=paard
+                    window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage=esp:" + themapdata.records[0].layer_name + urlextra + "&CRS=EPSG:4326&FORMAT=GeoTIFF&filename=" + themapdata.records[0].layer_name + ".tiff", "_self");
                 }
             }
         } catch (e) {

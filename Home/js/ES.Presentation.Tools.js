@@ -83,17 +83,19 @@ function calculateWMSparameters(data) {
         minx = 180;
     var deltaX = maxx - minx;
     var deltaY = maxy - miny;
-    /*
-    var delta = deltaY / deltaX;
-    var x = Math.sqrt(area / delta);
-    var y = delta * x;
-    x = x / pixelX;
-    y = y / pixelY;
-    */
-    var x = Math.round(deltaX * 10);
-    var y = Math.round(deltaY * 10);
-    var str = '&bbox=' + minx + ',' + miny + ',' + maxx + ',' + maxy + '&width=' + x + '&height=' + y + '';
-    //var str = '&bbox=' + minx + ',' + miny + ',' + maxx + ',' + maxy ;
+
+    var w = Math.round(deltaX/pixelX);
+    var h = Math.round(deltaY/pixelY);
+	//Limit size to 500x500px
+	var maxSize = 500;
+	if( w > maxSize && w >= h ){
+		h = Math.round(h * maxSize / w);
+		w = Math.round(maxSize);
+	}else{
+		w = Math.round(w * maxSize / h);
+		h = Math.round(maxSize);
+	}
+    var str = '&bbox=' + minx + ',' + miny + ',' + maxx + ',' + maxy + '&width=' + w + '&height=' + h + '';
     return str;
 }
 
