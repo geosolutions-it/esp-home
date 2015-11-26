@@ -232,4 +232,10 @@ var graphics = {
         , hover: 'images/Buttons_Ioanna/png/final-icons_12.png'
         , select: 'images/Buttons_Ioanna/png/final-icons_18.png'
     }
+    , downloadoriginal: {
+        normal: 'images/Buttons_Ioanna/png/final-icons_19.png'
+        , hover: 'images/Buttons_Ioanna/png/final-icons_21.png'
+        , select: 'images/Buttons_Ioanna/png/final-icons_20.png'
+    }
+	
 }
