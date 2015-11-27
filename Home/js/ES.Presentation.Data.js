@@ -473,8 +473,10 @@ function downloadmap(id) {
                     window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wfs?service=wfs&version=1.0.0&request=GetFeature&typeName=esp:" + themapdata.records[0].layer_name + "&outputFormat=shape-zip&format_options=filename:" + themapdata.records[0].layer_name, "_self");
                 }
                 if (themapdata.records[0].spatial_data_type_id == 1) {
-                    var urlextra = calculateWMSparameters(themapdata.records[0]);
-                    window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage=esp:" + themapdata.records[0].layer_name + urlextra + "&CRS=EPSG:4326&FORMAT=GeoTIFF&filename=" + themapdata.records[0].layer_name + ".tiff", "_self");
+                    var urlextra = calculateWCSparameters(themapdata.records[0]);
+                    if(urlextra){
+                        window.open("http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage=esp:" + themapdata.records[0].layer_name + urlextra + "&CRS=EPSG:4326&FORMAT=GeoTIFF&filename=" + themapdata.records[0].layer_name + ".tiff", "_self");
+                    }
                 }
             }
         } catch (e) {

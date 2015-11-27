@@ -2,7 +2,7 @@
 function roundcorners(d)
 function filteredjson(obj,key,val)
 function myParseJSON(data)
-function calculateWMSparameters(data)
+function calculateWCSparameters(data)
 function thesortcomparer (prop,updown)
 function sortdata(data,prop,updown)
 function activateDownloadBlueprint(active)
@@ -52,14 +52,16 @@ function myParseJSON(data) {
 }
 
 /*
-Name:       calculateWMSparameters
+Name:       calculateWCSparameters
 Goal:       calculate width,height and bbox vor wms request based on indicator_surface data
 Input:      indicator surface record
 Output:     string for wns request
 Caller:     downloadmap
 */
-function calculateWMSparameters(data) {
-    var area = data.area;
+function calculateWCSparameters(data) {
+	if(!validateWCSparameters(data)){
+		return "";
+	}
     var extent = data.extent;
     var pixelX = data.pixel_size_x;
     var pixelY = data.pixel_size_y;
@@ -86,17 +88,49 @@ function calculateWMSparameters(data) {
 
     var w = Math.round(deltaX/pixelX);
     var h = Math.round(deltaY/pixelY);
-	//Limit size to 500x500px
-	var maxSize = 500;
-	if( w > maxSize && w >= h ){
-		h = Math.round(h * maxSize / w);
-		w = Math.round(maxSize);
-	}else{
-		w = Math.round(w * maxSize / h);
-		h = Math.round(maxSize);
+	//Limit image area to 500x500px
+	var maxArea = 500 * 500;
+	var currentArea = w * h;
+	if(currentArea > maxArea){
+		var scaleFactor = Math.sqrt(currentArea/maxArea);
+		w = Math.round(w / scaleFactor);
+		h = Math.round(h / scaleFactor);
 	}
     var str = '&bbox=' + minx + ',' + miny + ',' + maxx + ',' + maxy + '&width=' + w + '&height=' + h + '';
     return str;
+}
+
+/*
+Name:       calculateWCSparameters
+Goal:       calculate width,height and bbox vor wms request based on indicator_surface data
+Input:      indicator surface record
+Output:     string for wns request
+Caller:     downloadmap
+*/
+function validateWCSparameters(data) {
+	var extent = data.extent;
+    var pixelX = data.pixel_size_x;
+    var pixelY = data.pixel_size_y;
+	var valid = true;
+	var msg = "";
+	if(!extent || extent == 'null'){
+		msg = 'extent';
+		valid = false;
+	}
+	if(!pixelX || pixelX == 'null'){
+		msg = 'pixel_size_x';
+		valid = false;
+	}
+	if(!pixelY || pixelY == 'null'){
+		msg = 'pixel_size_y';
+		valid = false;
+	}
+	if(!valid){
+		$("<div title='WCS request problem'>Map \'" + msg + "\' parameter is missing</div>").dialog(
+		{resizable: false, modal: true, draggable: false})
+		.prev(".ui-dialog-titlebar").css("background","rgb(81, 130, 189)").css("color","#eeeeee");
+	}
+	return valid;
 }
 
 /*
