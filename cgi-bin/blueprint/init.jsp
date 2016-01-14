@@ -33,13 +33,13 @@ if(input == null){
 }
 prop.load(input);
 boolean test = Boolean.parseBoolean(prop.getProperty("useTest"));
-String dbConnection = prop.getProperty("dbConnectionProd");
-String dpUsr = prop.getProperty("dpUsrProd");
+String url = prop.getProperty("dbConnectionProd");
+String username = prop.getProperty("dpUsrProd");
 String dbPwd = prop.getProperty("dbPwdProd");
 if(test){
-	dbConnection = prop.getProperty("dbConnectionTest");
-	dpUsr = prop.getProperty("dpUsrTest");
-	dbPwd = prop.getProperty("dbPwdTest");
+	url = prop.getProperty("dbConnectionTest");
+	username = prop.getProperty("dpUsrTest");
+	password = prop.getProperty("dbPwdTest");
 }
 
 %>
