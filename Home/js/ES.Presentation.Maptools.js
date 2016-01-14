@@ -93,7 +93,7 @@ function prepareMaptools() {
     $("#glclegend").mouseenter(function (e) {
         if (espMap.isVisible("glc2000_v1_gdal_1")) {
             var str = "";
-            str += '<br/><img src="http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=10&height=10&layer=lrm:glc2000_v1_gdal_1" alt="" />';
+            str += '<br/><img src="http://'+geoServerUrl+'/geoserver/lrm/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=10&height=10&layer=lrm:glc2000_v1_gdal_1" alt="" />';
             $("#legend").html(str);
             $("#legend").fadeIn(divsConfig.fadeSpeed);
         }
@@ -523,7 +523,7 @@ function identifyDoRegion(theregion) {
                                         "23": { "label": "No data", "red": 254, "green": 254, "blue": 254 }
                                     };
                                     var d = 0.00001;
-                                    var url = proxyget + "http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?service=WMS&request=GetFeatureInfo&LAYERS=lrm:glc2000_v1_gdal_1&QUERY_LAYERS=lrm:glc2000_v1_gdal_1&version=1.3.0&width=100&height=100&i=50&j=50&info_format=text/plain&bbox=";
+                                    var url = proxyget + "http://"+geoServerUrl+"/geoserver/lrm/wms?service=WMS&request=GetFeatureInfo&LAYERS=lrm:glc2000_v1_gdal_1&QUERY_LAYERS=lrm:glc2000_v1_gdal_1&version=1.3.0&width=100&height=100&i=50&j=50&info_format=text/plain&bbox=";
                                     url += (lonlat.lon - d) + ",";
                                     url += (lonlat.lat - d) + ",";
                                     url += (lonlat.lon + d) + ",";
