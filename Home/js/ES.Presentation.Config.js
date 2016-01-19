@@ -123,26 +123,26 @@ var ogclinks = {
     region: 
     {
         
-        urlwms: 'http://lrm-maps.jrc.ec.europa.eu/geoserver/espregions/wms?'
+        urlwms: 'http://'+geoServerUrl+'/geoserver/espregions/wms?'
         , layername: 'espregions:mces'
         //, layername: 'esp:mces'
         , sldfield: 'REGION'
         , name: 'ESstudies'
-        , urlwfs: proxyget + 'http://lrm-maps.jrc.ec.europa.eu/geoserver/espregions/wfs?'
+        , urlwfs: proxyget + 'http://'+geoServerUrl+'/geoserver/espregions/wfs?'
     }
     
     , mapupload: {
-        urlwms: 'http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wms?'
+        urlwms: 'http://'+geoServerUrl+'/geoserver/esp/wms?'
         , layername: 'esp:'
         , name: 'esp'
-        , urlwfs: proxyget + 'http://lrm-maps.jrc.ec.europa.eu/geoserver/esp/wfs?'
+        , urlwfs: proxyget + 'http://'+geoServerUrl+'/geoserver/esp/wfs?'
         , lastUploadedMap: null
     }
     , wdpa: {
-        urlwms: 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?'
+        urlwms: 'http://'+geoServerUrl+'/geoserver/lrm/wms?'
         , layername: 'lrm:wdpa_latest'
         , name: 'lrm'
-        , urlwfs: proxyget + 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wfs?'
+        , urlwfs: proxyget + 'http://'+geoServerUrl+'/geoserver/lrm/wfs?'
      
     }
 };

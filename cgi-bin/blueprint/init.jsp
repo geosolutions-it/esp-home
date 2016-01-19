@@ -23,10 +23,23 @@ boolean debg=validateBoolean(request.getParameter("debug"),false);
 
 
 
-
-
-
-
-
+/* Load properties files from classloader */
+Properties prop = new Properties();
+ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+InputStream input = classLoader.getResourceAsStream("db.properties");
+if(input == null){
+	System.out.println("Sorry, unable to find " + filename);
+	return;
+}
+prop.load(input);
+boolean test = Boolean.parseBoolean(prop.getProperty("useTest"));
+String url = prop.getProperty("dbConnectionProd");
+String username = prop.getProperty("dpUsrProd");
+String dbPwd = prop.getProperty("dbPwdProd");
+if(test){
+	url = prop.getProperty("dbConnectionTest");
+	username = prop.getProperty("dpUsrTest");
+	password = prop.getProperty("dbPwdTest");
+}
 
 %>

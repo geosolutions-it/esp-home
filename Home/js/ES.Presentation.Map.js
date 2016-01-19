@@ -40,13 +40,13 @@ function preparemap() {
 
     espMap.addGoogleLayer("terrain");
     espMap.addGoogleLayer("satellite");
-    //espMap.addWMSLayer("GLOBCOVER2009", 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?', 'lrm:GLOBCOVER2009');
-    //espMap.addWMSLayer("Global_Accessibility_Map", 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?', 'lrm:Global_Accessibility_Map');
-    //espMap.addWMSLayer("GLOBCOVER2005", 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?', 'lrm:GLOBCOVER2005');
-    espMap.addWMSLayer("bathymetry", 'http://h05-dev-vm3.jrc.it:8080/geoserver/lrm/ows?', 'bathymetry_amis');
-    espMap.addWMSLayer("glc2000_v1_gdal_1", 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?', 'lrm:glc2000_v1_gdal_1');
+    //espMap.addWMSLayer("GLOBCOVER2009", 'http://'+geoServerUrl+'/geoserver/lrm/wms?', 'lrm:GLOBCOVER2009');
+    //espMap.addWMSLayer("Global_Accessibility_Map", 'http://'+geoServerUrl+'/geoserver/lrm/wms?', 'lrm:Global_Accessibility_Map');
+    //espMap.addWMSLayer("GLOBCOVER2005", 'http://'+geoServerUrl+'/geoserver/lrm/wms?', 'lrm:GLOBCOVER2005');
+    espMap.addWMSLayer("bathymetry", 'http://'+geoServerUrl+'/geoserver/lrm/ows?', 'bathymetry_amis');
+    espMap.addWMSLayer("glc2000_v1_gdal_1", 'http://'+geoServerUrl+'/geoserver/lrm/wms?', 'lrm:glc2000_v1_gdal_1');
     espMap.addWMSLayer("basic", 'http://vmap0.tiles.osgeo.org/wms/vmap0?', 'basic');
-    espMap.addWMSLayer("WDPA", 'http://lrm-maps.jrc.ec.europa.eu/geoserver/lrm/wms?', 'lrm:wdpa_latest');
+    espMap.addWMSLayer("WDPA", 'http://'+geoServerUrl+'/geoserver/lrm/wms?', 'lrm:wdpa_latest');
     //espMap.setVisible("bathymetry", true);
     espMap.zoomTo(3);
     ovMap = new MapApp({
