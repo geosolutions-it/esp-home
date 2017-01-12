@@ -132,10 +132,10 @@ var ogclinks = {
     }
     
     , mapupload: {
-        urlwms: 'http://'+geoServerUrl+'/geoserver/esp/wms?'
-        , layername: 'esp:'
+        urlwms: 'http://'+geoServerUrl+'/geoserver/'+geoServerWorkspace+'/wms?'
+        , layername: geoServerWorkspace+':'
         , name: 'esp'
-        , urlwfs: proxyget + 'http://'+geoServerUrl+'/geoserver/esp/wfs?'
+        , urlwfs: proxyget + 'http://'+geoServerUrl+'/geoserver/'+geoServerWorkspace+'/wfs?'
         , lastUploadedMap: null
     }
     , wdpa: {

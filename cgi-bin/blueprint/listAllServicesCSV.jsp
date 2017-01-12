@@ -56,7 +56,7 @@ myQuery += "   ecosystem_service.id ASC, ";
 myQuery += "   indicator.id ASC;";
 
 	String strjson=do_query(myQuery ,url,username ,password ,includemetadata,includeinfo,islist,debg);
-	String filename="allservices.csv";
+	String csvName="allservices.csv";
 
 		byte requestBytes[] = strjson.getBytes();
 
@@ -66,7 +66,7 @@ myQuery += "   indicator.id ASC;";
 
                 response.setContentType("application/text");
 
-                response.setHeader("Content-disposition","attachment; filename=" +filename);
+                response.setHeader("Content-disposition","attachment; filename=" +csvName);
 
                 byte[] buf = new byte[1024];
 

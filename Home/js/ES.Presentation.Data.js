@@ -368,7 +368,7 @@ function loadmap(id) {
             htmlstr += (themapdata.records[0].areal_unit != "null") ? '<br/><b>Areal unit : ' + themapdata.records[0].areal_unit + '</b>' : "";
             htmlstr += (themapdata.records[0].temporal_unit != "null") ? '<br/><b>Temporal unit : ' + themapdata.records[0].temporal_unit + '</b>' : "";
             htmlstr += '<br/>min : ' + themapdata.records[0].min_val;
-            htmlstr += '<br/><img src="http://'+geoServerUrl+'/geoserver/esp/wms?service=wms&version=1.3.0&request=GetLegendGraphic&format=image/gif&TRANSPARENT=TRUE&layer=' + ogclinks.mapupload.layername + themapdata.records[0].layer_name + '">';
+            htmlstr += '<br/><img src="http://'+geoServerUrl+'/geoserver/'+geoServerWorkspace+'/wms?service=wms&version=1.3.0&request=GetLegendGraphic&format=image/gif&TRANSPARENT=TRUE&layer=' + ogclinks.mapupload.layername + themapdata.records[0].layer_name + '">';
             htmlstr += '<br/>max : ' + themapdata.records[0].max_val;
             htmlstr += '<br/><br/><b>Opacity: <span id="divopacityi">1</span></b><br/><div id = "div_slideri"></div>';
 
@@ -428,7 +428,7 @@ function loadmapBU(id) {
             htmlstr += (themapdata.records[0].areal_unit != "null") ? '<br/><b>Areal unit : ' + themapdata.records[0].areal_unit + '</b>' : "";
             htmlstr += (themapdata.records[0].temporal_unit != "null") ? '<br/><b>Temporal unit : ' + themapdata.records[0].temporal_unit + '</b>' : "";
             htmlstr += '<br/>min : ' + themapdata.records[0].min_val;
-            htmlstr += '<br/><img src="http://'+geoServerUrl+'/geoserver/esp/wms?service=wms&version=1.3.0&request=GetLegendGraphic&format=image/gif&TRANSPARENT=TRUE&layer=' + ogclinks.mapupload.layername + themapdata.records[0].layer_name + '">';
+            htmlstr += '<br/><img src="http://'+geoServerUrl+'/geoserver/'+geoServerWorkspace+'/wms?service=wms&version=1.3.0&request=GetLegendGraphic&format=image/gif&TRANSPARENT=TRUE&layer=' + ogclinks.mapupload.layername + themapdata.records[0].layer_name + '">';
             htmlstr += '<br/>max : ' + themapdata.records[0].max_val;
 
             $("#div_uploadedmap").html(htmlstr);
@@ -470,12 +470,12 @@ function downloadmap(id) {
             else {
                 //$("#" + mapTools.uploadedmap.div).html(themapdata.records[0].label + '<BR><img id = "img_uploadedmap" src="' + ogclinks.mapupload.urlwms + 'service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=' + themapdata.records[0].layer_name + '" alt="uploadedmap" title="Remove uploaded map" />');
                 if (themapdata.records[0].spatial_data_type_id == 2) {
-                    window.open("http://"+geoServerUrl+"/geoserver/esp/wfs?service=wfs&version=1.0.0&request=GetFeature&typeName=esp:" + themapdata.records[0].layer_name + "&outputFormat=shape-zip&format_options=filename:" + themapdata.records[0].layer_name, "_self");
+                    window.open("http://"+geoServerUrl+"/geoserver/"+geoServerWorkspace+"/wfs?service=wfs&version=1.0.0&request=GetFeature&typeName="+geoServerWorkspace+":" + themapdata.records[0].layer_name + "&outputFormat=shape-zip&format_options=filename:" + themapdata.records[0].layer_name, "_self");
                 }
                 if (themapdata.records[0].spatial_data_type_id == 1) {
                     var urlextra = calculateWCSparameters(themapdata.records[0]);
                     if(urlextra){
-                        window.open("http://"+geoServerUrl+"/geoserver/esp/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage=esp:" + themapdata.records[0].layer_name + urlextra + "&CRS=EPSG:4326&FORMAT=GeoTIFF&filename=" + themapdata.records[0].layer_name + ".tiff", "_self");
+                        window.open("http://"+geoServerUrl+"/geoserver/"+geoServerWorkspace+"/wcs?service=WCS&version=1.0.0&request=GetCoverage&Coverage="+geoServerWorkspace+":" + themapdata.records[0].layer_name + urlextra + "&CRS=EPSG:4326&FORMAT=GeoTIFF&filename=" + themapdata.records[0].layer_name + ".tiff", "_self");
                     }
                 }
             }

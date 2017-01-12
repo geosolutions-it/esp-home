@@ -1,7 +1,10 @@
 var test = true;
 var geoServerUrl = "";
+var geoServerWorkspace = "";
 if(test == true){
-	geoServerUrl = "h05-dev-vm3.jrc.it:8080";
+	geoServerUrl = "localhost:8080";
+    geoServerWorkspace = "h05-esp";
 }else{
 	geoServerUrl = "lrm-maps.jrc.ec.europa.eu";
+    geoServerWorkspace = "h05-esp";
 }

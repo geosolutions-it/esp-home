@@ -34,11 +34,11 @@ if(input == null){
 prop.load(input);
 boolean test = Boolean.parseBoolean(prop.getProperty("useTest"));
 String url = prop.getProperty("dbConnectionProd");
-String username = prop.getProperty("dpUsrProd");
+String username = prop.getProperty("dbUsrProd");
 String password = prop.getProperty("dbPwdProd");
 if(test){
 	url = prop.getProperty("dbConnectionTest");
-	username = prop.getProperty("dpUsrTest");
+	username = prop.getProperty("dbUsrTest");
 	password = prop.getProperty("dbPwdTest");
 }
 

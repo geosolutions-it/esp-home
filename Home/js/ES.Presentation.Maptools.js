@@ -398,7 +398,7 @@ function identify(lonlat) {
                 $("#id_info_uploaded").show();
                 $("#id_info_uploaded_info").html("loading...");
                 $("#id_info_uploaded_title").html(uploadedmaps[i].maptitle);
-                var url = ogclinks.mapupload.urlwfs + 'SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&typename=esp:' + uploadedmaps[i].layer_name + '&srsname=EPSG:4326&outputFormat=json&BBOX=' + lonlat.lon + "," + lonlat.lat + "," + lonlat.lon + "," + lonlat.lat + ',EPSG:4326';
+                var url = ogclinks.mapupload.urlwfs + 'SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&typename='+geoServerWorkspace+':' + uploadedmaps[i].layer_name + '&srsname=EPSG:4326&outputFormat=json&BBOX=' + lonlat.lon + "," + lonlat.lat + "," + lonlat.lon + "," + lonlat.lat + ',EPSG:4326';
                 $.ajax(url)
                             .done(function (data, b, c, d) {
                                 try {
