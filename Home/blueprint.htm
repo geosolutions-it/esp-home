@@ -10,9 +10,9 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/blueprint.css"/>
-    
+
     <script type="text/javascript">
-        
+
         var headerheight = 100;
         //var headerwidth = 1360;
         var headerwidth = 1800;
@@ -50,7 +50,7 @@
             positionTableHeaderItem($("#tableHeaderItem5c"), 40, 47, 4, 60, "<b>Url</b>");
 
             positionTableHeaderItem($("#tableHeaderItem6"), 0, 51, 10, 100, "<b>Quantification mehod</b>");
-            
+
             positionTableHeaderItem($("#tableHeaderItem7a"), 0, 61, 18, 40, "<b>Spatial details</b>");
             positionTableHeaderItem($("#tableHeaderItem7b"), 40, 61, 6, 60, "<b>Scale</b>");
             positionTableHeaderItem($("#tableHeaderItem7c"), 40, 67, 6, 60, "<b>Extent</b>");
@@ -122,7 +122,7 @@
                 str += '<td style="width:5%">' + ((records[i].temporal_unit != "null")?records[i].temporal_unit:"") + '</td>';
 
                 str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;">' + ((records[i].datasources_label != "null")?records[i].datasources_label:"") + '</td>';
-                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;">' + ((records[i].datasources_url != "null")?records[i].datasources_url:"") + '</td>';
+                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;"><a href="' + ((records[i].datasources_url != "null") ? records[i].datasources_url : "") +'"</a></td>';
                 str += '<td style="width:10%">' + ((records[i].quantification_method != "null")?records[i].quantification_method:"") + '</td>';
 
                 str += '<td style="width:6%">' + ((records[i].spatial_level != "null")?records[i].spatial_level:"") + '</td>';
@@ -147,12 +147,12 @@
             return n.join(".");
         }
     </script>
-    
+
 
 </head>
 <body>
 <div id="div_window">
-    
+
         <div id="div_header"></div>
         <div id="div_tableheader">
 <div id="tableHeaderItem1" class="tableHeaderItem"></div>
@@ -180,7 +180,7 @@
         </div>
         <div id="div_table">
         </div>
-        
+
 
 </div>
 </body>

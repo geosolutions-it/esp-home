@@ -15,7 +15,7 @@
 #div_content_data_service_table_container {z-index: 7;top:22%;left:5%;width:91%;height:73%;overflow:auto;}
 #div_content_data_service_table {z-index: 7;top:0%;left:0%;width:100%;height:100%;overflow:visible;}
 
-#div_content_data_service_footer{z-index: 7;top:85%;left:5%;width:90%;height:10%;}
+#div_content_data_service_footer{z-index: 6;top:85%;left:5%;width:90%;height:10%;}
 #div_content_data_call_filter{z-index: 8;top:5%;left:5%;width:10%;
                               /*height:3%;*/
                               height:20px;
@@ -52,5 +52,5 @@ tr.clsrowservice2 td{background-color:white;padding:2px;}
     color:#eeeeee;
     padding:1%;
     overflow:auto;
-    
+
     }
