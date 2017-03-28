@@ -122,7 +122,7 @@
                 str += '<td style="width:5%">' + ((records[i].temporal_unit != "null")?records[i].temporal_unit:"") + '</td>';
 
                 str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;">' + ((records[i].datasources_label != "null")?records[i].datasources_label:"") + '</td>';
-                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;"><a href="' + ((records[i].datasources_url != "null") ? records[i].datasources_url : "") +'"</a></td>';
+                str += '<td style="width:4%;word-wrap:break-word;word-break:break-all;"><a href="' + ((records[i].datasources_url != "null") ? records[i].datasources_url : "") +'" target="_blank">'+((records[i].datasources_url != "null") ? records[i].datasources_url : "")+'</a></td>';
                 str += '<td style="width:10%">' + ((records[i].quantification_method != "null")?records[i].quantification_method:"") + '</td>';
 
                 str += '<td style="width:6%">' + ((records[i].spatial_level != "null")?records[i].spatial_level:"") + '</td>';
